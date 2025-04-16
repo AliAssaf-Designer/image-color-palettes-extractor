@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Image Color Palette Extractor And Ready Palettes with information about each color">
+    <meta name="keywords" content="img, image, color, colors, palette, palettes, template, templates, extract,color name, rgb, cmyk, hsl, hex, hsv, xyz, monochromatic, random, analogous, complementary, triadic, tetradic, hot, cold, shades, square, png, svg, css, json">
+    <meta name="author" content="Ali Assaf">
+    <title>About Us</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.css" integrity="sha512-kJlvECunwXftkPwyvHbclArO8wszgBGisiLeuDFwNM8ws+wKIw0sv1os3ClWZOcrEB2eRXULYUsm8OVRGJKwGA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="./css/style.css">
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <nav class="nav">
+                <h1 class="nav-title">مستخرج الألوان</h1>
+                <ul class="list" id="nav-list">
+                    <li class="list_item"><a href="./login.html">اشتراك / تسجيل الدخول</a></li>
+                    <li class="list_item"><a href="./index.html">الصفحة الرئيسية</a></li>
+                    <li class="list_item"><a href="#color-extractor">مستخرج الألوان</a></li>
+                    <li class="list_item"><a href="#ready-palettes">تنسيقات جاهزة</a></li>
+                    <li class="list_item"><a href="./about-us.html">عنا</a></li>
+                </ul>
+                <a href="javascript:void(0);" class="burger-icon" onclick="burger_menu()">
+                    <i class="ri-menu-line"></i>
+                </a>
+            </nav>
+        </header>
+        <main class="main">
+            <form class="about-form" action="index.html">
+                <div class="about-input">
+                    <label class="about-label" for="email-about">ادخل ايميلك هنا:</label>
+                    <input type="text" class="us-input" required id="email-about">
+                </div>
+                <div class="about-input">
+                    <label for="message" class="about-label">ادخل رسالتك هنا:</label>
+                    <textarea id="message" required class="us-input"></textarea>
+                </div>
+                <div class="about-input image-load">
+                    <label for="upload-img" class="about-label">ادخل صورة تعبر عن المشكلة:</label>
+                    <button class="container-btn-file" id="upload-img">
+                        حمل الصورة
+                        <input class="file" name="text" type="file" />
+                    </button>
+                </div>
+                <div class="about-input">
+                    <input type="submit" class="about-submit" value="ارسال">
+                </div>
+            </form>
+        </main>
+        <footer class="footer">
+            <div class="copyright">
+                <h3 class="title">مستخرج ألوان الصور</h3>
+                <p class="copy-desc">جميع الحقوق محفوظة ©2025</p>
+                <h5 class="copy-auther">علي عساف</h5>
+            </div>
+            <div class="contact">
+                <h3 class="title">للتواصل معي عبر التالي:</h3>
+                <ul class="list" id="contact-list">
+                    <li class="list_item">
+                        <a href="#" class="contact-icon">
+                            <img src="./img/contact-icon/facebook-fill.svg" alt="">
+                        </a>
+                    </li>
+                    <li class="list_item">
+                        <a href="#" class="contact-icon">
+                            <img src="./img/contact-icon/instagram-line.svg" alt="">
+                        </a>
+                    </li>
+                    <li class="list_item">
+                        <a href="#" class="contact-icon">
+                            <img src="./img/contact-icon/linkedin-fill.svg" alt="">
+                        </a>
+                    </li>
+                    <li class="list_item">
+                        <a href="#" class="contact-icon">
+                            <img src="./img/contact-icon/telegram-fill.svg" alt="">
+                        </a>
+                    </li>
+                    <li class="list_item">
+                        <a href="#" class="contact-icon">
+                            <img src="./img/contact-icon/whatsapp-line.svg" alt="">
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </footer>
+    </div>
+    <script src="./js/script.js"></script>
+</body>
+</html>
