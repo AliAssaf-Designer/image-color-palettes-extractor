@@ -238,7 +238,12 @@ function generateImagePaletteHtml(type, container){
         colorEl.style.backgroundColor = HslToHex(color);
         colorEl.style.width = `calc(100%/${currentCount})`;
         if (screen.width < 768) {
-            colorEl.style.width = `calc(100%/${currentCount / 2})`;
+            if (currentCount > 4) {
+                colorEl.style.fontSize = "11px";
+            }
+            if (currentCount > 6) {
+                colorEl.style.width = "90px";
+            }
         }
         if (currentCount >= 8) {
             colorEl.style.fontSize = "13.5px";
@@ -788,6 +793,13 @@ function generateReadyPaletteHtml(type, container){
     palette?.forEach((color)=>{
         const palette_color = document.createElement("div");
         palette_color.classList.add("palette_color");
+        if (screen.width < 768) {
+            palette_color.style.width = `calc(100%/${currentCount} - 20px)`;
+            if (currentCount > 4) {
+                palette_color.style.fontSize = "10px";
+                palette_color.style.width = "100px";
+            }
+        }
         const colorInfo = colorAPI+`id?format=hsl&hsl=${rgbToHsl(color)}`;
         fetch(colorInfo)
         .then(response => response.json())

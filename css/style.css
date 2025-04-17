@@ -711,7 +711,6 @@ a{
     .color-card{
         line-height: 16px;
         padding: 10px 5px;
-        font-size: 16px;
     }
     /* DOWNLOAD TEMPLATES */
     .download-template{
@@ -776,6 +775,8 @@ a{
     }
     .palette-colors{
         width: 100%;
+        flex-wrap: wrap;
+        /* gap: 0px; */
     }
     .color-names{
         font-size: 13px;
