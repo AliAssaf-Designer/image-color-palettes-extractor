@@ -49,12 +49,12 @@ a{
     text-decoration: underline;
 }
 .burger-icon{
-    width: 11%;
+    width: 15%;
     background: var(--secondary-color);
     display: none;
     position: absolute;
     right: 0;
-    top: 30px;
+    top: 0;
     font-size: 40px;
     border-radius: 10px;
     text-align: center;
@@ -706,6 +706,7 @@ a{
     }
     .colors-cards{
         margin: 10px 0px;
+        flex-wrap: wrap;
     }
     .color-card{
         line-height: 16px;

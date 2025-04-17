@@ -237,6 +237,9 @@ function generateImagePaletteHtml(type, container){
         colorEl.classList.add("color-card");
         colorEl.style.backgroundColor = HslToHex(color);
         colorEl.style.width = `calc(100%/${currentCount})`;
+        if (screen.width < 768) {
+            colorEl.style.width = `calc(100%/${currentCount / 2})`;
+        }
         if (currentCount >= 8) {
             colorEl.style.fontSize = "13.5px";
         }
