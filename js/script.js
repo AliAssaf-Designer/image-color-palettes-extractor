@@ -800,19 +800,23 @@ function generateReadyPaletteHtml(type, container){
                 palette_color.style.height = "62vh";
                 palette_color.children[0].style.height = "70%";
                 palette_color.children[0].innerHTML = `<h4 class="colorName">${colorName.name.value}</h4>`;
-                palette_color.children[1].innerHTML += 
-                `
+                if (palette_color.children[1].children.length === 1) {
+                    palette_color.children[1].innerHTML += 
+                    `
                     <h4>${colorName.rgb.value}</h4>
                     <h4>${colorName.cmyk.value}</h4>
                     <h4>${colorName.hsl.value}</h4>
-                `;
+                    `;
+                }
             });
             palette_color.addEventListener("mouseleave", ()=>{
                 setTimeout(()=>{
                     palette_color.style.height = "30vh";
-                    palette_color.children[0].style.height = "80%";
+                    palette_color.children[0].style.height = "85%";
                     palette_color.children[0].innerHTML = "";
-                    palette_color.children[1].innerHTML += "";
+                    if (palette_color.children[1].children.length === 4) {
+                        palette_color.children[1].innerHTML = `<h4>${HslToHex(color)}</h4>`;
+                    }
                 });
             });
         });

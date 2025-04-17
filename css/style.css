@@ -50,14 +50,14 @@ a{
 }
 .burger-icon{
     width: 10%;
-    height: 10vh;
+    height: 8vh;
     padding: 3px;
     background: var(--secondary-color);
     display: none;
     position: absolute;
     right: 0;
-    top: 25px;
-    font-size: 50px;
+    top: 32px;
+    font-size: 40px;
     border-radius: 10px;
 }
 .burger-icon:hover{
@@ -192,16 +192,18 @@ a{
 }
 .color-template{
     margin: 20px 0;
+    height: auto;
 }
 .color-template_title{
     margin-bottom: 15px;
     font-size: 29px;
 }
 .colors-cards{
-    margin: 10px 30px;
+    margin: 10px 15px;
     display: flex;
     justify-content: center;
     align-items: center;
+    flex-wrap: wrap;
 }
 .color-card{
     text-align: center;
@@ -378,7 +380,7 @@ a{
 }
 .color{
     width: 100%;
-    height: 80%;
+    height: 85%;
     cursor: pointer;
 }
 .color-names{
@@ -655,8 +657,8 @@ a{
         font-size: 40px;
     }
     .contact-icon{
-        width: 60px;
-        height: 60px;
+        width: 50px;
+        height: 50px;
     }
     #contact-list{
         display: flex;
@@ -678,17 +680,21 @@ a{
         width: 85%;
     }
     .buttons{
-        width: 100%;;
+        width: 100%;
+        display: block;
     }
     .color-info{
         border: 2px solid var(--primary-color);
         width: 33%;
         font-size: 19px;
         font-weight: 600;
+        margin-bottom: 15px;
+        width: 100%;
     }
     .image-submit, .ready-submit{
-        width: 22%;
+        width: 50%;
         font-size: 19px;
+        margin: 0 auto;
     }
     /* COLOR TEMPLATES */
     .color-templates{
@@ -699,7 +705,7 @@ a{
         margin: 10px 0;
     }
     .colors-cards{
-        margin: 10px 15px;
+        margin: 10px 0px;
     }
     .color-card{
         line-height: 16px;
