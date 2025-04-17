@@ -888,7 +888,7 @@ function burger_menu() {
     var nav = document.querySelector(".nav");
     var nav_list = document.querySelector("#nav-list");
     if (nav.style.height === "19vh") {
-        nav.style.height = "70vh";
+        nav.style.height = "50vh";
         nav_list.style.display = "block";
     } else {
         nav.style.height = "19vh";

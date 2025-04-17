@@ -50,15 +50,16 @@ a{
 }
 .burger-icon{
     width: 10%;
-    height: 8vh;
+    height: 19vh;
     padding: 3px;
     background: var(--secondary-color);
     display: none;
     position: absolute;
     right: 0;
-    top: 32px;
+    top: 0px;
     font-size: 40px;
     border-radius: 10px;
+    align-content: center;
 }
 .burger-icon:hover{
     background-color: var(--primary-color);
@@ -93,7 +94,7 @@ a{
     display: block;
     width: 45px;
     height: 45px;
-    img{
+    .social-icon{
         filter: invert();
     }
 }
@@ -199,7 +200,7 @@ a{
     font-size: 29px;
 }
 .colors-cards{
-    margin: 10px 15px;
+    margin: 10px 30px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -343,7 +344,7 @@ a{
     font-size: 25px;
 }
 .real-code{
-    height: 25vh;
+    height: auto;
     direction: ltr;
     text-align: start;
     padding: 0 15px;
@@ -640,7 +641,7 @@ a{
         display: none;
     }
     .list_item{
-        margin: 15px;
+        margin: 5px;
         padding: 5px;
         border: 1px solid var(--secondary-color);
         border-radius: 10px;
@@ -670,8 +671,8 @@ a{
         font-size: 30px;
     }
     .btn-text-bg{
-        width: 40%;
-        left: 30%;
+        width: 50%;
+        left: 25%;
     }
     #added-image{
         padding: 10px;
@@ -709,8 +710,8 @@ a{
     }
     .color-card{
         line-height: 16px;
-        padding: 5px;
-        font-size: 15px;
+        padding: 10px 5px;
+        font-size: 16px;
     }
     /* DOWNLOAD TEMPLATES */
     .download-template{
@@ -763,7 +764,6 @@ a{
         font-size: 30px;
     }
     .real-code{
-        height: 15vh;
         font-size: 14px;
     }
     /* READY PALETTES */
