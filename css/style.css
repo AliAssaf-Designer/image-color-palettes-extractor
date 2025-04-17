@@ -712,6 +712,9 @@ a{
         line-height: 16px;
         padding: 10px 5px;
     }
+    .each-image{
+        width: 200px;
+    }
     /* DOWNLOAD TEMPLATES */
     .download-template{
         margin: 10px;
@@ -776,7 +779,6 @@ a{
     .palette-colors{
         width: 100%;
         flex-wrap: wrap;
-        /* gap: 0px; */
     }
     .color-names{
         font-size: 13px;
