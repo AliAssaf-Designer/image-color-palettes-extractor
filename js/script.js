@@ -152,11 +152,10 @@ function generateSquareColors(hsl, count){
     }
     return colors;
 }
-function generateRandomColors(hsl, count){
+function generateRandomColors(count){
     let colors = [];
-    let [hue, saturation, lightness] = hsl;
     for (let i = 0; i < count; i++) {
-        colors.push([Math.random()*360, Math.random()*100, Math.random()*100]);
+        colors.push([Math.round(Math.random()*360), Math.round(Math.random()*100), Math.round(Math.random()*100)]);
     }
     return colors;
 }
@@ -216,7 +215,7 @@ function generateImagePalette(hsl,type,count){
         case "square": 
             return generateSquareColors(hsl,count);
         case "random": 
-            return generateRandomColors(hsl,count);
+            return generateRandomColors(count);
         case "hot": 
             return generateHotColors(hsl,count);
         case "cold": 
