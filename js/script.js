@@ -21,8 +21,17 @@ const download_palettes = document.querySelector(".download-palettes");
 const search_input = document.querySelector(".search__input")
 const picture_button = document.querySelector(".picture__button");
 const color_img = document.querySelector(".color-img");
+
 const search_button = document.querySelector(".search__button");
+const search_color_template = document.querySelector(".search-color-template");
+const search_color_palette = document.querySelector(".search-color-palette");
 const search_color_info = document.querySelector(".search-color-info");
+const search_type = document.querySelector(".search-type");
+const search_palettes_num = document.querySelector(".search-palettes-num");
+const search_color_num = document.querySelector(".search-color-num");
+const search_submit = document.querySelector(".search-submit");
+const search_more_info = document.querySelector(".search-more-info");
+const download_color_palette =document.querySelector(".download-color-palette");
 
 // Values Variables
 const colorAPI = "https://www.thecolorapi.com/";
@@ -49,6 +58,7 @@ getFile.addEventListener("change", (e)=>{
             added_img.src = reader.result;
             image.src = reader.result;
             image.onload = () => {
+                listsOptions(color_type, palettes_num, color_num, imageColorSubmit, "color-template_title", color_templates);
                 imageColorSubmit.addEventListener("click", ()=>{
                     extractColorsFromImage(image);
                 });
@@ -56,23 +66,6 @@ getFile.addEventListener("change", (e)=>{
         }
     }
     color_type.style.display = "block";
-});
-// lists options
-color_type.addEventListener("change", (e)=>{
-    palettes_num.style.display = "block";
-    const value = e.target.value;
-    currentType = value;
-    triadicAndTetradicColorCount();
-});
-palettes_num.addEventListener("input", (e)=>{
-    color_num.style.display = "block";
-    const value = e.target.value;
-    currentCount = value;
-})
-color_num.addEventListener("change", (e)=>{
-    imageColorSubmit.style.display = "block";
-    const value = e.target.value;
-    currentColorCount = value;
 });
 // EXTRACT IMAGE COLORS PALETTES
 // image color extract
@@ -95,13 +88,13 @@ function extractColorsFromImage(image){
             colors_cards.setAttribute("value", i);
 
             template_title.innerHTML = `التنسيق ${i + 1}:`;
-            generateImagePaletteHtml(currentType, colors_cards);
+            generateImagePaletteHtml(currentType, colors_cards, color_more_info);
 
             color_template.appendChild(template_title);
             color_template.appendChild(colors_cards);
             color_templates.appendChild(color_template);
-
         }
+        checkInputs(color_templates, color_type, palettes_num, color_num);
         select_templates(color_templates, imageColors, download_templates, "colors-cards", "color-card");
     });
 };
@@ -234,7 +227,7 @@ function generateImagePalette(hsl,type,count){
     }
 }
 // generate the palette colors
-function generateImagePaletteHtml(type, container){
+function generateImagePaletteHtml(type, container, target){
     let color = currentColor;
     let count = currentColorCount;
     const hsl = getHslFromColor(color);
@@ -276,7 +269,7 @@ function generateImagePaletteHtml(type, container){
                     copyColorNameType(e);
                 }
                 else {
-                    addColorFullInfo(colorName);
+                    addColorFullInfo(colorName, target);
                 }
             });
         });
@@ -351,39 +344,39 @@ function HslToHex(hsl){
     return `#${f(0)}${f(8)}${f(4)}`;
 }
 // make count of color for triadic three and for tetradic four
-function triadicAndTetradicColorCount(){
-    switch (color_type.value) {
+function triadicAndTetradicColorCount(type, palettesNum, colorNum, colorSubmit){
+    switch (type.value) {
         case "triadic":
-            color_num.style.display = "none";
-            palettes_num.style.display = "block";
-            palettes_num.addEventListener("input", ()=>{
-                color_num.style.display = "none";
-                imageColorSubmit.style.display = "block";
+            colorNum.style.display = "none";
+            palettesNum.style.display = "block";
+            palettesNum.addEventListener("input", ()=>{
+                colorNum.style.display = "none";
+                colorSubmit.style.display = "block";
             });
-            currentColorCount = 3;
+            currentColorCount = colorNum.value = 3;
             break;
         case "tetradic":
-            color_num.style.display = "none";
-            palettes_num.style.display = "block";
-            palettes_num.addEventListener("input", ()=>{
-                color_num.style.display = "none";
-                imageColorSubmit.style.display = "block";
+            colorNum.style.display = "none";
+            palettesNum.style.display = "block";
+            palettesNum.addEventListener("input", ()=>{
+                colorNum.style.display = "none";
+                colorSubmit.style.display = "block";
             });
-            currentColorCount = 4;
+            currentColorCount = colorNum.value = 4;
             break;
         default:
-            palettes_num.style.display = "block";
-            palettes_num.addEventListener("input", ()=>{
-                color_num.style.display = "block";
+            palettesNum.style.display = "block";
+            palettesNum.addEventListener("input", ()=>{
+                colorNum.style.display = "block";
             });
-            currentColorCount = color_num.value;
+            currentColorCount = colorNum.value;
             break;
     }
 }
 // full info for each color
-function addColorFullInfo(color){
-    color_more_info.innerHTML = "";
-    color_more_info.innerHTML += 
+function addColorFullInfo(color, target){
+    target.innerHTML = "";
+    target.innerHTML += 
     `
         <div class="color-mode">
             <h4 class="mode-title">XYZ Color Mode:</h4>
@@ -529,6 +522,9 @@ function select_templates(template, array, container, class_name, card_class_nam
             container.removeChild(container.lastChild);
             downloadTemplate(select_template, colors_template, container, card_class_name);
         }
+        if (select_template.value === "") {
+            container.removeChild(container.lastChild);
+        }
     });
 }
 // download types
@@ -583,9 +579,12 @@ function downloadTemplate(select, palette, container, card_class_name){
             let templateNumber = select.value;
             templateNumber = templateNumber == ""? "palette": templateNumber;
             download_palette(format, templateNumber, palette[templateNumber], card_class_name);
-        })
+        });
         
         download.appendChild(download_btn);
+        if (select_download_format.value === "") {
+            download.removeChild(download_btn);
+        }
     });
 
     or_separator.innerHTML = `
@@ -638,6 +637,10 @@ function downloadTemplate(select, palette, container, card_class_name){
         code.appendChild(code_title);
         code.appendChild(real_code);
         code_format.appendChild(code);
+
+        if (select_code_format.value === "") {
+            code_format.removeChild(code);
+        }
     });
 
     download_format.appendChild(select_download_format);
@@ -650,7 +653,7 @@ function downloadTemplate(select, palette, container, card_class_name){
 }
 // Choose the download format
 function download_palette(format, number, palette, card_class_name){
-    const paletteColors = palette.querySelectorAll(`.${card_class_name}`);
+    let paletteColors = palette.querySelectorAll(`.${card_class_name}`);
     const colors = [];
     paletteColors.forEach((color) =>{
         colors.push(color.style.backgroundColor);
@@ -761,27 +764,13 @@ function show_palette_json(colors, target){
     target.innerHTML = json;
 }
 // READY PALETTES
-//  ready lists options
-ready_color_type.addEventListener("change", (e)=>{
-    ready_palettes_num.style.display = "block";
-    const value = e.target.value;
-    currentType = value;
-    readyTriadicAndTetradicColorCount();
-});
-ready_palettes_num.addEventListener("input", (e)=>{
-    ready_color_num.style.display = "block";
-    const value = e.target.value;
-    currentCount = value;
-})
-ready_color_num.addEventListener("change", (e)=>{
-    readyColorSubmit.style.display = "block";
-    const value = e.target.value;
-    currentColorCount = value;
-});
+listsOptions(ready_color_type, ready_palettes_num, ready_color_num, readyColorSubmit, palettes);
 readyColorSubmit.addEventListener("click", (color)=>{
     generateReadyPalettesHtml(color);
     select_templates(palettes, generateRandomRgbColors(currentCount), download_palettes, "palette", "color");
+    checkInputs(palettes, ready_color_type, ready_palettes_num, ready_color_num);
 });
+
 // generate ready colors templates
 function generateReadyPaletteHtml(type, container){
     let color = currentColor;
@@ -854,34 +843,6 @@ function generateRandomRgbColors(count){
     }
     return colors;
 }
-// make count of color for triadic three and for tetradic four
-function readyTriadicAndTetradicColorCount(){
-    switch (ready_color_type.value) {
-        case "triadic":
-            ready_palettes_num.style.display = "block";
-            ready_palettes_num.addEventListener("input", ()=>{
-                readyColorSubmit.style.display = "block";
-                ready_color_num.style.display = "none";
-            });
-            currentColorCount = 3;
-            break;
-        case "tetradic":
-            ready_palettes_num.style.display = "block";
-            ready_palettes_num.addEventListener("input", ()=>{
-                ready_color_num.style.display = "none";
-                readyColorSubmit.style.display = "block";
-            });
-            currentColorCount = 4;
-            break;
-        default:
-            ready_palettes_num.style.display = "block";
-            ready_palettes_num.addEventListener("input", ()=>{
-                ready_color_num.style.display = "block";
-            });
-            currentColorCount = ready_color_num.value;
-            break;
-    }
-}
 // generate whole ready templates
 function generateReadyPalettesHtml(color){
     color = generateRandomRgbColors(currentCount);
@@ -908,6 +869,40 @@ function generateReadyPalettesHtml(color){
 // call it when the site loaded
 window.onload= generateReadyPalettesHtml();
 window.onload = select_templates(palettes, generateRandomRgbColors(currentCount), download_palettes, "palette", "color");
+// Check the inputs
+function checkInputs(templates, type, num1, num2) {
+    if (type.value === "") {
+        templates.innerHTML = `<p class="search-title">يجب عليك اختيار نمط تنسيق معين</p>`;
+    }
+    if (num1.value < 2) {
+        templates.innerHTML = `<p class="search-title">يجب عليك اختيار عدد التنسيقات الذي تريده بشكل صحيح</p>`;
+    }else if (num1.value > 200) {
+        templates.innerHTML = `<p class="search-title">عدد التنسيقات الذي اخترته عالي جداً, يرجى اختيار عدد اقل من  200</p>`;
+    }
+    if (num2.value === "") {
+        templates.innerHTML = `<p class="search-title">يجب عليك اختيار عدد الألوان ضمن التنسيق الواحد</p>`;
+    }
+}
+// lists options
+function listsOptions(type, palettes, colors, submit, container) {
+    type.addEventListener("change", (e)=>{
+        palettes.style.display = "block";
+        const value = e.target.value;
+        currentType = value;
+        triadicAndTetradicColorCount(type, palettes, colors, submit);
+    });
+    palettes.addEventListener("input", (e)=>{
+        colors.style.display = "block";
+        const value = e.target.value;
+        currentCount = value;
+    });
+    colors.addEventListener("change", (e)=>{
+        submit.style.display = "block";
+        const value = e.target.value;
+        currentColorCount = value;
+    });
+    checkInputs(container, type, palettes, colors);
+}
 // Color Search
 color_img.addEventListener("input", ()=>{
     const img_path = color_img.value;
@@ -921,38 +916,79 @@ search_button.addEventListener("click", (e)=>{
 });
 function generateColorAPI(color_type){
     let colorInfo;
-    if (color_type.includes("rgb")) {
-        colorInfo = colorAPI+`id?format=rgb&rgb=${color_type}`;
-    } else if (color_type.includes("#")) {
+    if ((color_type.at(0) === "r" || color_type.at(0) === "R") && (color_type.at(1) === "g" || color_type.at(1) === "G") && (color_type.at(2) === "b" || color_type.at(2) === "B") && color_type.at(3) === "(" && color_type.at(color_type.length - 1) === ")") {
+        const r = parseInt(color_type.substring(color_type.indexOf("(") + 1, color_type.indexOf(",")));
+        const g = parseInt(color_type.substring(color_type.indexOf(",") + 1, color_type.lastIndexOf(",")));
+        const b = parseInt(color_type.substring(color_type.lastIndexOf(",") + 1, color_type.indexOf(")")));
+        if (r > 255 || r < 0 || g > 255 || g < 0 || b > 255 || b < 0) {
+            search_color_info.innerHTML = `<p class="search-title">قيمة اللون غير صحيحة</p>`;
+        }else{
+            colorInfo = colorAPI+`id?format=rgb&rgb=${color_type}`;
+        }
+    } else if (color_type.at(0) === "#" && color_type.length === 4 || color_type.length === 7) {
         const hex_clean = color_type.substr(1, color_type.length);
-        colorInfo = colorAPI+`id?format=hex&hex=${hex_clean}`;
+        if (isValidColor(color_type)) {
+            colorInfo = colorAPI+`id?format=hex&hex=${hex_clean}`;
+        }else if (hex_clean.includes("A") || hex_clean.includes("B") || hex_clean.includes("C") || hex_clean.includes("D") || hex_clean.includes("E") || hex_clean.includes("F")){
+            search_color_info.innerHTML = `<p class="search-title">الحروف الموجودة يجب ان تكون صغيرة</p>`;
+        }else{
+            search_color_info.innerHTML = `<p class="search-title">قيمة اللون غير صحيحة</p>`;
+        }
     }
-    else if (color_type.includes("hsl")){
-        colorInfo = colorAPI+`id?format=hsl&hsl=${color_type}`;
+    else if ((color_type.at(0) === "h" || color_type.at(0) === "H") && (color_type.at(1) === "s" || color_type.at(1) === "S") && (color_type.at(2) === "l" || color_type.at(2) === "L") && color_type.at(3) === "(" && color_type.at(color_type.length - 1) === ")"){
+        const h = parseInt(color_type.substring(color_type.indexOf("(") + 1, color_type.indexOf(",")));
+        const s = parseInt(color_type.substring(color_type.indexOf(",") + 1, color_type.lastIndexOf(",")));
+        const l = parseInt(color_type.substring(color_type.lastIndexOf(",") + 1, color_type.indexOf(")")));
+        if (h < 0 || h > 360 || s < 0 || s > 100 || l < 0 || l > 100) {
+            search_color_info.innerHTML = `<p class="search-title">قيمة اللون غير صحيحة</p>`;
+        }else{
+            colorInfo = colorAPI+`id?format=hsl&hsl=${color_type}`;
+        }
     }
-    else if (color_type.includes("hsv")){
-        colorInfo = colorAPI+`id?format=hsv&hsv=${color_type}`;
+    else if ((color_type.at(0) === "h" || color_type.at(0) === "H") && (color_type.at(1) === "s" || color_type.at(1) === "S") && (color_type.at(2) === "v" || color_type.at(2) === "V") && color_type.at(3) === "(" && color_type.at(color_type.length - 1) === ")"){
+        const h = parseInt(color_type.substring(color_type.indexOf("(") + 1, color_type.indexOf(",")));
+        const s = parseInt(color_type.substring(color_type.indexOf(",") + 1, color_type.lastIndexOf(",")));
+        const v = parseInt(color_type.substring(color_type.lastIndexOf(",") + 1, color_type.indexOf(")")));
+        if (h < 0 || h > 360 || s < 0 || s > 100 || v < 0 || v > 100) {
+            search_color_info.innerHTML = `<p class="search-title">قيمة اللون غير صحيحة</p>`;
+        }else{
+            colorInfo = colorAPI+`id?format=hsl&hsl=${color_type}`;
+        }
     }
-    else if (color_type.includes("cmyk")){
-        colorInfo = colorAPI+`id?format=cmyk&cmyk=${color_type}`;
+    else if ((color_type.at(0) === "c" || color_type.at(0) === "C") && (color_type.at(1) === "m" || color_type.at(1) === "M") && (color_type.at(2) === "y" || color_type.at(2) === "Y") && (color_type.at(3) === "k" || color_type.at(3) === "K") && color_type.at(4) === "(" && color_type.at(color_type.length - 1) === ")"){
+        const c = parseInt(color_type.substring(color_type.indexOf("(") + 1, color_type.indexOf(",")));
+        const m = parseInt(color_type.substring(color_type.indexOf(",") + 1, color_type.indexOf(",", 6)));
+        const y = parseInt(color_type.substring(color_type.indexOf(",", 6) + 1, color_type.lastIndexOf(",")));
+        const k = parseInt(color_type.substring(color_type.lastIndexOf(",") + 1, color_type.indexOf(")")));
+        if (c < 0 || c > 100 || m < 0 || m > 100 || y < 0 || y > 100 || k < 0 || k > 100) {
+            search_color_info.innerHTML = `<p class="search-title">قيمة اللون غير صحيحة</p>`;
+        }else{
+            colorInfo = colorAPI+`id?format=hsl&hsl=${color_type}`;
+        }
     }
-    else if (color_type.includes("xyz")){
-        colorInfo = colorAPI+`id?format=xyz&xyz=${color_type}`;
+    else if ((color_type.at(0) === "x" || color_type.at(0) === "X") && (color_type.at(1) === "y" || color_type.at(1) === "Y") && (color_type.at(2) === "z" || color_type.at(2) === "Z") && color_type.at(3) === "(" && color_type.at(color_type.length - 1) === ")"){
+        const x = parseInt(color_type.substring(color_type.indexOf("(") + 1, color_type.indexOf(",")));
+        const y = parseInt(color_type.substring(color_type.indexOf(",") + 1, color_type.lastIndexOf(",")));
+        const z = parseInt(color_type.substring(color_type.lastIndexOf(",") + 1, color_type.indexOf(")")));
+        if (x < 0 || x > 95.047 || y < 0 || y > 100 || z < 0 || z > 108.883) {
+            search_color_info.innerHTML = `<p class="search-title">قيمة اللون غير صحيحة</p>`;
+        }else{
+            colorInfo = colorAPI+`id?format=hsl&hsl=${color_type}`;
+        }
     }
-    else if (color_type.includes("")){ // name
-        colorInfo = colorAPI+`id?format=rgb&rgb=${color_type}`;
-    }
-    else{//=============================
-        search_color_info.innerHTML = "<p>thats value doesn't represent any kind of colors values</p>"
+    else{
+        search_color_info.innerHTML = "<p class='search-title'>هذه القيمة لا تمثل أي نوع من أنواع الألوان</p>"
     }
     return colorInfo;
 }
 function generateColorInfoHtml(color_api){
-    color_api = color_api.split("").filter(function (char) {return char !== " " && char !== "%";}).join("");
-    console.log(color_api);
+    // color_api = color_api.split("").filter(function (char) {return char !== " " && char !== "%";}).join("");
+    color_api = color_api.replaceAll("%", "");
+    search_type.style.display = "none";
     fetch(color_api)
     .then(response => response.json())
     .then(data => {
+        search_more_info.innerHTML = "";
         search_color_info.innerHTML = "";
         search_color_info.innerHTML += `
             <div class="search-color">
@@ -985,10 +1021,25 @@ function generateColorInfoHtml(color_api){
             </div>
             <div class="search-color">
                 <h3 class="color-title">صورة اللون:</h3>
-                <img src="${data.image.bare}" alt="search color image" class="color-image"/>
+                <img src="${data.image.bare}" alt="search color image" class="search-color-image"/>
             </div>
         `;
-    })
+
+        search_type.style.display = "block";
+        listsOptions(search_type, search_type, search_color_num, search_submit, search_color_template);
+        search_submit.addEventListener("click", ()=>{
+            search_color_template.innerHTML = "";
+            currentColor = search_input.value;
+            const colors_cards = document.createElement("div");
+
+            colors_cards.classList.add("colors-cards");
+            colors_cards.setAttribute("value", 0);
+            generateImagePaletteHtml(currentType, colors_cards, search_more_info);
+
+            search_color_template.appendChild(colors_cards);
+            select_templates(search_color_template, [currentColor], download_color_palette, "colors-cards", "color-card")
+        });
+    });
 }
 search_color_info.addEventListener("click",(e)=>{
     if (e.target.classList.contains("color-value")) {
