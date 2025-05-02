@@ -3,6 +3,11 @@
     deny from all
 </Files>
 
+<Files script.js>
+    order allow,deny
+    deny from all
+</Files>
+
 Options All -Indexes
 
 DirectoryIndex index.html       
