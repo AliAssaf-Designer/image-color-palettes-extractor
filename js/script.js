@@ -1,37 +1,38 @@
+let doc = document;
 // constant
-const getFile = document.querySelector("#getFile");
-const input_btn = document.querySelector(".input-btn");
-const image = document.querySelector(".image");
-const added_img = document.getElementById("added-image");
-const reload_image = document.querySelector(".reload-image");
-const color = document.querySelectorAll(".color");
-const imageColorSubmit = document.querySelector(".image-submit");
-const readyColorSubmit = document.querySelector(".ready-submit");
-const color_type = document.querySelector(".color-type");
-const ready_color_type = document.querySelector(".ready-color-type");
-const palettes_num = document.querySelector(".palettes-num");
-const ready_palettes_num = document.querySelector(".ready-palettes-num");
-const color_num = document.querySelector(".color-num");
-const ready_color_num = document.querySelector(".ready-color-num");
-const color_templates = document.querySelector(".color-templates");
-const palettes = document.querySelector(".palettes");
-const color_more_info = document.querySelector(".color-more-info");
-const download_templates = document.querySelector(".download-templates");
-const download_palettes = document.querySelector(".download-palettes");
-const search_input = document.querySelector(".search__input")
-const picture_button = document.querySelector(".picture__button");
-const color_img = document.querySelector(".color-img");
+const getFile = doc.querySelector("#getFile");
+const input_btn = doc.querySelector(".input-btn");
+const image = doc.querySelector(".image");
+const added_img = doc.getElementById("added-image");
+const reload_image = doc.querySelector(".reload-image");
+const color = doc.querySelectorAll(".color");
+const imageColorSubmit = doc.querySelector(".image-submit");
+const readyColorSubmit = doc.querySelector(".ready-submit");
+const color_type = doc.querySelector(".color-type");
+const ready_color_type = doc.querySelector(".ready-color-type");
+const palettes_num = doc.querySelector(".palettes-num");
+const ready_palettes_num = doc.querySelector(".ready-palettes-num");
+const color_num = doc.querySelector(".color-num");
+const ready_color_num = doc.querySelector(".ready-color-num");
+const color_templates = doc.querySelector(".color-templates");
+const palettes = doc.querySelector(".palettes");
+const color_more_info = doc.querySelector(".color-more-info");
+const download_templates = doc.querySelector(".download-templates");
+const download_palettes = doc.querySelector(".download-palettes");
+const search_input = doc.querySelector(".search__input")
+const picture_button = doc.querySelector(".picture__button");
+const color_img = doc.querySelector(".color-img");
 
-const search_button = document.querySelector(".search__button");
-const search_color_template = document.querySelector(".search-color-template");
-const search_color_palette = document.querySelector(".search-color-palette");
-const search_color_info = document.querySelector(".search-color-info");
-const search_type = document.querySelector(".search-type");
-const search_palettes_num = document.querySelector(".search-palettes-num");
-const search_color_num = document.querySelector(".search-color-num");
-const search_submit = document.querySelector(".search-submit");
-const search_more_info = document.querySelector(".search-more-info");
-const download_color_palette =document.querySelector(".download-color-palette");
+const search_button = doc.querySelector(".search__button");
+const search_color_template = doc.querySelector(".search-color-template");
+const search_color_palette = doc.querySelector(".search-color-palette");
+const search_color_info = doc.querySelector(".search-color-info");
+const search_type = doc.querySelector(".search-type");
+const search_palettes_num = doc.querySelector(".search-palettes-num");
+const search_color_num = doc.querySelector(".search-color-num");
+const search_submit = doc.querySelector(".search-submit");
+const search_more_info = doc.querySelector(".search-more-info");
+const download_color_palette =doc.querySelector(".download-color-palette");
 
 // Values Variables
 const colorAPI = "https://www.thecolorapi.com/";
@@ -51,22 +52,38 @@ reload_image.addEventListener("click", ()=>{
 getFile.addEventListener("change", (e)=>{
     const file = e.target.files[0];
     if (file) {
-        const reader = new FileReader();
-        reader.readAsDataURL(file);
-        reader.onload = function(){
-            const image = new Image();
-            added_img.src = reader.result;
-            image.src = reader.result;
-            image.onload = () => {
-                listsOptions(color_type, palettes_num, color_num, imageColorSubmit, "color-template_title", color_templates);
-                imageColorSubmit.addEventListener("click", ()=>{
-                    extractColorsFromImage(image);
-                });
+        let file_extension = file.type;
+        if (file_extension.includes("image")) {
+            const reader = new FileReader();
+            reader.readAsDataURL(file);
+            reader.onload = function(){
+                const image = new Image();
+                added_img.src = reader.result;
+                image.src = reader.result;
+                image.onload = () => {
+                    listsOptions(color_type, palettes_num, color_num, imageColorSubmit, "color-template_title", color_templates);
+                    imageColorSubmit.addEventListener("click", ()=>{
+                        extractColorsFromImage(image);
+                    });
+                }
             }
+            color_type.style.display = "block";
+        }
+        else{
+            error_file_type_alert("الملف الذي قمت بأختياره لا يمثل صورة, قم بإعادة تحميل ملف أخر؟");
         }
     }
-    color_type.style.display = "block";
 });
+function error_file_type_alert(txt) {
+    const alert_msg_container = doc.createElement("div");
+    alert_msg_container.classList.add("error-type-file");
+    alert_msg_container.innerHTML = txt;
+    image.appendChild(alert_msg_container);
+    setTimeout(() => {
+        image.removeChild(alert_msg_container);
+    }, 2000);
+    color_type.style.display = "none";
+}
 // EXTRACT IMAGE COLORS PALETTES
 // image color extract
 function extractColorsFromImage(image){
@@ -78,9 +95,9 @@ function extractColorsFromImage(image){
         color_more_info.innerHTML = "";
         for (let i = 0; i < currentCount; i++) {
             currentColor = imageColors[i];
-            const color_template = document.createElement("div");
-            const template_title = document.createElement("h3");
-            const colors_cards = document.createElement("div");
+            const color_template = doc.createElement("div");
+            const template_title = doc.createElement("h3");
+            const colors_cards = doc.createElement("div");
 
             color_template.classList.add("color-template");
             template_title.classList.add("color-template_title");
@@ -236,7 +253,7 @@ function generateImagePaletteHtml(type, container, target){
     container.innerHTML = "";
     palette = generateImagePalette(hsl, type, count);
     palette?.forEach((color)=>{
-        const colorEl = document.createElement("div");
+        const colorEl = doc.createElement("div");
         colorEl.classList.add("color-card");
         colorEl.style.backgroundColor = HslToHex(color);
         colorEl.style.width = `calc(100%/${currentColorCount})`;
@@ -280,12 +297,12 @@ function generateImagePaletteHtml(type, container, target){
 function getHslFromColor(color){
     let hsl;
     if (isValidColor(color)) {
-        let temp = document.createElement("div");
+        let temp = doc.createElement("div");
         temp.style.color = color;
-        document.body.appendChild(temp);
+        doc.body.appendChild(temp);
         let styles = window.getComputedStyle(temp, null);
         let rgb = styles.getPropertyValue("color");
-        document.body.removeChild(temp);
+        doc.body.removeChild(temp);
         rgb = removeRGB(rgb);
         hsl = rgbToHsl(rgb);
     }
@@ -469,7 +486,7 @@ function copyColorNameType(e){
     toast(e);
 }
 function toast(e){
-    const copied = document.createElement("i");
+    const copied = doc.createElement("i");
     copied.classList.add("ri-check-double-line");
     copied.style.color = "green";
     copied.style.fontSize = "20px";
@@ -489,10 +506,10 @@ function toast(e){
 function select_templates(template, array, container, class_name, card_class_name){
     let colors_template = template.querySelectorAll(`.${class_name}`);
     container.innerHTML = "";
-    const select_templates = document.createElement("div");
-    const select_title = document.createElement("h5");
-    const select_template = document.createElement("select");
-    const select_option = document.createElement("option");
+    const select_templates = doc.createElement("div");
+    const select_title = doc.createElement("h5");
+    const select_template = doc.createElement("select");
+    const select_option = doc.createElement("option");
 
     select_templates.classList.add("select-templates");
     select_title.classList.add("select-title");
@@ -504,7 +521,7 @@ function select_templates(template, array, container, class_name, card_class_nam
     select_template.appendChild(select_option);
 
     for (let i = 0; i < array.length; i++) {
-        const select_option = document.createElement("option");
+        const select_option = doc.createElement("option");
         select_option.value = i;
         select_option.innerHTML = i + 1;
         select_template.appendChild(select_option);
@@ -530,16 +547,16 @@ function select_templates(template, array, container, class_name, card_class_nam
 // download types
 function downloadTemplate(select, palette, container, card_class_name){
     let options = ["png", "svg", "css", "json"];
-    const download_template = document.createElement("div");
-    const download_format = document.createElement("div");
-    const select_download_format = document.createElement("select");
-    const select_download_option = document.createElement("option");
-    const download = document.createElement("div");
-    const or_separator = document.createElement("div");
-    const code_format = document.createElement("div");
-    const select_code_format = document.createElement("select");
-    const code_option = document.createElement("option");
-    const code = document.createElement("div");
+    const download_template = doc.createElement("div");
+    const download_format = doc.createElement("div");
+    const select_download_format = doc.createElement("select");
+    const select_download_option = doc.createElement("option");
+    const download = doc.createElement("div");
+    const or_separator = doc.createElement("div");
+    const code_format = doc.createElement("div");
+    const select_code_format = doc.createElement("select");
+    const code_option = doc.createElement("option");
+    const code = doc.createElement("div");
 
     download_template.classList.add("download-template");
     download_format.classList.add("download-format");
@@ -559,7 +576,7 @@ function downloadTemplate(select, palette, container, card_class_name){
 
     select_download_format.appendChild(select_download_option);
     for (let i = 0; i < options.length; i++) {
-        const select_download_option = document.createElement("option");
+        const select_download_option = doc.createElement("option");
         select_download_option.classList.add("format");
         select_download_option.value = options[i];
         select_download_option.innerHTML = options[i].toUpperCase();
@@ -567,7 +584,7 @@ function downloadTemplate(select, palette, container, card_class_name){
     }
     select_download_format.addEventListener("change", ()=>{
         download.innerHTML = "";
-        const download_btn = document.createElement("input");
+        const download_btn = doc.createElement("input");
         
         download_btn.type = "button";
         download_btn.classList.add("image-submit");
@@ -597,7 +614,7 @@ function downloadTemplate(select, palette, container, card_class_name){
     code_option.innerHTML = "اختر نمط الكود";
     select_code_format.appendChild(code_option);
     for (let i = 2; i < options.length; i++) {
-        const code_option = document.createElement("option");
+        const code_option = doc.createElement("option");
         code_option.classList.add("format");
         code_option.value = options[i];
         code_option.innerHTML = options[i].toUpperCase();
@@ -605,10 +622,10 @@ function downloadTemplate(select, palette, container, card_class_name){
     }
     select_code_format.addEventListener("change", ()=>{
         code.innerHTML = "";
-        const code_title = document.createElement("div");
-        const title = document.createElement("h4");
-        const file_copy = document.createElement("i");
-        const real_code = document.createElement("div");
+        const code_title = doc.createElement("div");
+        const title = doc.createElement("h4");
+        const file_copy = doc.createElement("i");
+        const real_code = doc.createElement("div");
 
         code_title.classList.add("code-title");
         file_copy.classList.add("ri-file-copy-line");
@@ -678,7 +695,7 @@ function download_palette(format, number, palette, card_class_name){
 }
 // download formats
 function download_palette_png(colors, name){
-    const canvas = document.createElement("canvas");
+    const canvas = doc.createElement("canvas");
     canvas.width = colors.length * 200;
     canvas.height = 1000;
     const ctx = canvas.getContext("2d");
@@ -686,20 +703,20 @@ function download_palette_png(colors, name){
         ctx.fillStyle = color;
         ctx.fillRect(index * 200, 0, 200, 1000);
     });
-    const link = document.createElement("a");
+    const link = doc.createElement("a");
     link.download = parseInt(name) + 1 + ".png";
     link.href = canvas.toDataURL();
     link.click();
 }
 function download_palette_svg(colors, name){
-    const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+    const svg = doc.createElementNS("http://www.w3.org/2000/svg", "svg");
     svg.setAttribute("xmlns", "http://www.w3.org/2000/svg");
     svg.setAttribute("width", "100%");
     svg.setAttribute("height", "100%");
     svg.setAttribute("viewbox", "0 0 1200 600");
     svg.setAttribute("preserveAspectRatio", "none");
     colors.forEach((color, index) =>{
-        const rect = document.createElementNS("http://www.w3.org/2000/svg", "rect");
+        const rect = doc.createElementNS("http://www.w3.org/2000/svg", "rect");
         const width = 1200 / colors.length;
         rect.setAttribute("x", index * width);
         rect.setAttribute("y", 0);
@@ -711,7 +728,7 @@ function download_palette_svg(colors, name){
     const svgData = new XMLSerializer().serializeToString(svg);
     const svgBlob = new Blob([svgData], {type: "image/svg+xml;charset=utf-8"});
     const svgUrl = URL.createObjectURL(svgBlob);
-    const downloadLink = document.createElement("a");
+    const downloadLink = doc.createElement("a");
     downloadLink.download = parseInt(name) + 1 + ".svg";
     downloadLink.href = svgUrl;
     downloadLink.click();
@@ -722,7 +739,7 @@ function download_palette_css(colors, name) {
     }`;
     const blob = new Blob([css], {type: "text/css"});
     const url = URL.createObjectURL(blob);
-    const link = document.createElement("a");
+    const link = doc.createElement("a");
     link.download = parseInt(name) + 1 + ".css";
     link.href = url;
     link.click();
@@ -731,7 +748,7 @@ function download_palette_json(colors, name) {
     const json = JSON.stringify(colors);
     const blob = new Blob([json], {type: "application/json",});
     const url = URL.createObjectURL(blob);
-    const link = document.createElement("a");
+    const link = doc.createElement("a");
     link.download = parseInt(name) + 1 + ".json";
     link.href = url;
     link.click();
@@ -781,7 +798,7 @@ function generateReadyPaletteHtml(type, container){
     container.innerHTML = "";
     palette = generateImagePalette(hsl, type, count);
     palette?.forEach((color)=>{
-        const palette_color = document.createElement("div");
+        const palette_color = doc.createElement("div");
         palette_color.classList.add("palette_color");
         if (screen.width < 768) {
             palette_color.style.width = `calc(100%/${currentColorCount} - 20px)`;
@@ -850,9 +867,9 @@ function generateReadyPalettesHtml(color){
     palettes.innerHTML = "";
     for (let i = 0; i < color.length; i++) {
         currentColor = color[i];
-        const palette = document.createElement("div");
-        const palette_title = document.createElement("div");
-        const palette_colors = document.createElement("div");
+        const palette = doc.createElement("div");
+        const palette_title = doc.createElement("div");
+        const palette_colors = doc.createElement("div");
 
         palette.classList.add("palette");
         palette_title.classList.add("palette-title");
@@ -1030,7 +1047,7 @@ function generateColorInfoHtml(color_api){
         search_submit.addEventListener("click", ()=>{
             search_color_template.innerHTML = "";
             currentColor = search_input.value;
-            const colors_cards = document.createElement("div");
+            const colors_cards = doc.createElement("div");
 
             colors_cards.classList.add("colors-cards");
             colors_cards.setAttribute("value", 0);
@@ -1048,8 +1065,8 @@ search_color_info.addEventListener("click",(e)=>{
 });
 // Menu for mobiles
 function burger_menu() {
-    var nav = document.querySelector(".nav");
-    var nav_list = document.querySelector("#nav-list");
+    var nav = doc.querySelector(".nav");
+    var nav_list = doc.querySelector("#nav-list");
     if (nav.style.height === "19vh") {
         nav.style.height = "50vh";
         nav_list.style.display = "block";

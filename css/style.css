@@ -185,6 +185,14 @@ body{
 .color-type, .color-num, .ready-color-num, .palettes-num, .ready-palettes-num{
     display: none;
 }
+.error-type-file{
+    width: 50%;
+    background-color: rgb(240, 97, 97);
+    font-size: 18px;
+    color: white;
+    padding: 15px;
+    border-radius: 15px;
+}
 /* COLOR TEMPLATES */
 .color-templates{
     background-color: var(--primary-color);
@@ -814,6 +822,10 @@ body{
         width: 50%;
         font-size: 19px;
         margin: 0 auto;
+    }
+    .error-type-file{
+        width: 80%;
+        text-align: center;
     }
     /* COLOR TEMPLATES */
     .color-templates{
