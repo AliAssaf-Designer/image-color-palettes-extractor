@@ -62,16 +62,12 @@ getFile.addEventListener("change", (e)=>{
                 image.src = reader.result;
                 image.onload = () => {
                     listsOptions(color_type, palettes_num, color_num, imageColorSubmit, "color-template_title", color_templates);
-                    imageColorSubmit.addEventListener("click", ()=>{
-                        extractColorsFromImage(image);
-                    });
+                    imageColorSubmit.addEventListener("click", ()=> extractColorsFromImage(image));
                 }
             }
             color_type.style.display = "block";
         }
-        else{
-            error_file_type_alert("الملف الذي قمت بأختياره لا يمثل صورة, قم بإعادة تحميل ملف أخر؟");
-        }
+        else error_file_type_alert("الملف الذي قمت بأختياره لا يمثل صورة, قم بإعادة تحميل ملف أخر؟");
     }
 });
 function error_file_type_alert(txt) {
@@ -79,9 +75,7 @@ function error_file_type_alert(txt) {
     alert_msg_container.classList.add("error-type-file");
     alert_msg_container.innerHTML = txt;
     image.appendChild(alert_msg_container);
-    setTimeout(() => {
-        image.removeChild(alert_msg_container);
-    }, 2000);
+    setTimeout(() => {image.removeChild(alert_msg_container);}, 2000);
     color_type.style.display = "none";
 }
 // EXTRACT IMAGE COLORS PALETTES
@@ -98,15 +92,12 @@ function extractColorsFromImage(image){
             const color_template = doc.createElement("div");
             const template_title = doc.createElement("h3");
             const colors_cards = doc.createElement("div");
-
             color_template.classList.add("color-template");
             template_title.classList.add("color-template_title");
             colors_cards.classList.add("colors-cards");
             colors_cards.setAttribute("value", i);
-
             template_title.innerHTML = `التنسيق ${i + 1}:`;
             generateImagePaletteHtml(currentType, colors_cards, color_more_info);
-
             color_template.appendChild(template_title);
             color_template.appendChild(colors_cards);
             color_templates.appendChild(color_template);
@@ -119,65 +110,48 @@ function extractColorsFromImage(image){
 function generateAnalogousColors(hsl, count){
     const colors = [];
     const [hue, saturation, lightness] = hsl;
-    for (let i = 0; i < count; i++) {
-        colors.push([(hue + 30 *i) % 360, saturation, lightness]);
-    }
+    for (let i = 0; i < count; i++) colors.push([(hue + 30 *i) % 360, saturation, lightness]);
     return colors;
 }
 function generateMonochromaticColors(hsl, count){
     let colors = [];
     let [hue, saturation, lightness] = hsl;
-    for (let i = 0; i < count; i++) {
-        colors.push([hue, saturation, (lightness = 10 * i) % 100]);
-    }
+    for (let i = 0; i < count; i++) colors.push([hue, saturation, (lightness = 10 * i) % 100]);
     return colors;
 }
 function generateTriadicColors(hsl, count){
     let colors = [];
     let [hue, saturation, lightness] = hsl;
-    for (let i = 0; i < count; i++) {
-        colors.push([(hue + 120 * i) % 360, saturation, lightness]);
-    }
+    for (let i = 0; i < count; i++) colors.push([(hue + 120 * i) % 360, saturation, lightness]);
     return colors;
 }
 function generateComplementaryColors(hsl, count){
     let colors = [];
     let [hue, saturation, lightness] = hsl;
-    for (let i = 0; i < count; i++) {
-        colors.push([(hue + 150 * i) % 360, saturation, lightness]);
-    }
+    for (let i = 0; i < count; i++) colors.push([(hue + 150 * i) % 360, saturation, lightness]);
     return colors;
 }
 function generateShadesColors(hsl, count){
     let colors = [];
     let [hue, saturation, lightness] = hsl;
-    for (let i = 0; i < count; i++) {
-        colors.push([hue, (saturation + 10 * i) % 100, lightness]);
-    }
+    for (let i = 0; i < count; i++) colors.push([hue, (saturation + 10 * i) % 100, lightness]);
     return colors;
 }
 function generateTetradicColors(hsl, count){
     let colors = [];
     let [hue, saturation, lightness] = hsl;
-    for (let i = 0; i < count; i++) {
-        let colorValue = [(hue + 90 * i) % 360, saturation, lightness];
-        colors.push(colorValue);
-    }
+    for (let i = 0; i < count; i++) colors.push([(hue + 90 * i) % 360, saturation, lightness]);
     return colors;
 }
 function generateSquareColors(hsl, count){
     let colors = [];
     let [hue, saturation, lightness] = hsl;
-    for (let i = 0; i < count; i++) {
-        colors.push([(hue + 60 * i)%360, saturation, lightness]);
-    }
+    for (let i = 0; i < count; i++) colors.push([(hue + 60 * i)%360, saturation, lightness]);
     return colors;
 }
 function generateRandomColors(count){
     let colors = [];
-    for (let i = 0; i < count; i++) {
-        colors.push([Math.round(Math.random()*360), Math.round(Math.random()*100), Math.round(Math.random()*100)]);
-    }
+    for (let i = 0; i < count; i++) colors.push([Math.round(Math.random()*360), Math.round(Math.random()*100), Math.round(Math.random()*100)]);
     return colors;
 }
 function generateHotColors(hsl, count){
@@ -185,9 +159,7 @@ function generateHotColors(hsl, count){
     let [hue, saturation, lightness] = hsl;
     for (let i = 0; i < count; i++) {
         let newHue = (hue + 45 * i) % 360;
-        if (newHue < 90 || newHue > 270) {
-            colors.push([newHue % 360, saturation, lightness]);
-        }
+        if (newHue < 90 || newHue > 270) colors.push([newHue % 360, saturation, lightness]);
         else if(newHue > 90 && newHue <= 180){
             newHue = newHue - 90;
             colors.push([newHue % 360, saturation, lightness]);
@@ -204,9 +176,7 @@ function generateColdColors(hsl, count){
     let [hue, saturation, lightness] = hsl;
     for (let i = 0; i < count; i++) {
         let newHue = hue + 45 * i;
-        if (newHue > 90 || newHue < 270) {
-            colors.push([newHue % 360, saturation, lightness]);
-        }
+        if (newHue > 90 || newHue < 270) colors.push([newHue % 360, saturation, lightness]);
         else if(newHue < 90 && newHue >= 0){
             newHue = newHue + 90;
             colors.push([newHue % 360, saturation, lightness]);
@@ -221,26 +191,16 @@ function generateColdColors(hsl, count){
 // choose the palette type
 function generateImagePalette(hsl,type,count){
     switch (type) {
-        case "analogous": 
-            return generateAnalogousColors(hsl,count);
-        case "monochromatic": 
-            return generateMonochromaticColors(hsl,count);
-        case "triadic": 
-            return generateTriadicColors(hsl,count);
-        case "complementary": 
-            return generateComplementaryColors(hsl,count);
-        case "shades": 
-            return generateShadesColors(hsl,count);
-        case "tetradic": 
-            return generateTetradicColors(hsl,count);
-        case "square": 
-            return generateSquareColors(hsl,count);
-        case "random": 
-            return generateRandomColors(count);
-        case "hot": 
-            return generateHotColors(hsl,count);
-        case "cold": 
-            return generateColdColors(hsl,count);
+        case "analogous": return generateAnalogousColors(hsl,count);
+        case "monochromatic": return generateMonochromaticColors(hsl,count);
+        case "triadic": return generateTriadicColors(hsl,count);
+        case "complementary": return generateComplementaryColors(hsl,count);
+        case "shades": return generateShadesColors(hsl,count);
+        case "tetradic": return generateTetradicColors(hsl,count);
+        case "square": return generateSquareColors(hsl,count);
+        case "random": return generateRandomColors(count);
+        case "hot": return generateHotColors(hsl,count);
+        case "cold": return generateColdColors(hsl,count);
     }
 }
 // generate the palette colors
@@ -258,36 +218,23 @@ function generateImagePaletteHtml(type, container, target){
         colorEl.style.backgroundColor = HslToHex(color);
         colorEl.style.width = `calc(100%/${currentColorCount})`;
         if (screen.width < 768) {
-            if (currentColorCount > 4) {
-                colorEl.style.fontSize = "11px";
-            }
-            if (currentColorCount > 6) {
-                colorEl.style.width = "90px";
-            }
+            if (currentColorCount > 4) colorEl.style.fontSize = "11px";
+            if (currentColorCount > 6) colorEl.style.width = "90px";
         }
-        if (currentColorCount >= 8) {
-            colorEl.style.fontSize = "13.5px";
-        }
+        if (currentColorCount >= 8) colorEl.style.fontSize = "13.5px";
         const colorInfo = colorAPI+`id?format=hsl&hsl=${color}`;
         fetch(colorInfo)
         .then(response => response.json())
         .then(colorName =>{
-            colorEl.innerHTML = 
-            `
-            <h5 class="color-card_name">${colorName.name.value}</h5>
-            <h5 class="color-card_hex">${HslToHex(color)}</h5>
-            <h5 class="color-card_rgb">${colorName.rgb.value}</h5>
-            <h5 class="color-card_cmyk">${colorName.cmyk.value}</h5>
-            <h5 class="color-card_hsl">hsl(${Math.round(color[0])},${Math.round(color[1])}%,${Math.round(color[2])}%)</h5>
-            <a class="color-card_more">معلومات كاملة></a>
-            `;
+            colorEl.innerHTML = `<h5 class="color-card_name">${colorName.name.value}</h5>
+                                    <h5 class="color-card_hex">${HslToHex(color)}</h5>
+                                    <h5 class="color-card_rgb">${colorName.rgb.value}</h5>
+                                    <h5 class="color-card_cmyk">${colorName.cmyk.value}</h5>
+                                    <h5 class="color-card_hsl">hsl(${Math.round(color[0])},${Math.round(color[1])}%,${Math.round(color[2])}%)</h5>
+                                    <a class="color-card_more">معلومات كاملة></a>`;
             colorEl.addEventListener("click",(e)=>{
-                if (!e.target.classList.contains("color-card_more")) {
-                    copyColorNameType(e);
-                }
-                else {
-                    addColorFullInfo(colorName, target);
-                }
+                if (!e.target.classList.contains("color-card_more")) copyColorNameType(e);
+                else addColorFullInfo(colorName, target);
             });
         });
         container.appendChild(colorEl);
@@ -318,32 +265,21 @@ function rgbToHsl(rgb){
     let r = rgb[0] / 255;
     let g = rgb[1] / 255;
     let b = rgb[2] / 255;
-
     let cMin = Math.min(r, g, b);
     let cMax = Math.max(r, g, b);
     let delta = cMax - cMin;
     let h = 0;
     let s = 0;
     let l = (cMin + cMax) / 2;
-
     if (delta === 0) {
         h = 0;
         s = 0;
-    }else if (cMax === r) {
-        h = ((g - b) / delta);
-    }else if (cMax === g) {
-        h = (b-r) / delta + 2;
-    }else{
-        h = (r - g) / delta + 4;
-    }
-
+    }else if (cMax === r) h = ((g - b) / delta);
+    else if (cMax === g) h = (b-r) / delta + 2;
+    else h = (r - g) / delta + 4;
     h = Math.round(h * 60);
-    if (h < 0) {
-        h += 360;
-    }
-    if (delta !== 0) {
-        s = Math.round((delta / (1- Math.abs(2 * l - 1))) * 100);
-    }
+    if (h < 0) h += 360;
+    if (delta !== 0) s = Math.round((delta / (1- Math.abs(2 * l - 1))) * 100);
     l = Math.round(l * 100);
     return [h,s,l];
 }
@@ -383,9 +319,7 @@ function triadicAndTetradicColorCount(type, palettesNum, colorNum, colorSubmit){
             break;
         default:
             palettesNum.style.display = "block";
-            palettesNum.addEventListener("input", ()=>{
-                colorNum.style.display = "block";
-            });
+            palettesNum.addEventListener("input", ()=>colorNum.style.display = "block");
             currentColorCount = colorNum.value;
             break;
     }
@@ -393,9 +327,7 @@ function triadicAndTetradicColorCount(type, palettesNum, colorNum, colorSubmit){
 // full info for each color
 function addColorFullInfo(color, target){
     target.innerHTML = "";
-    target.innerHTML += 
-    `
-        <div class="color-mode">
+    target.innerHTML += `<div class="color-mode">
             <h4 class="mode-title">XYZ Color Mode:</h4>
             <p class="mode-value">The value for this color is: ${color.XYZ.value}</p>
             <div class="mode-each-value">
@@ -476,8 +408,7 @@ function addColorFullInfo(color, target){
                     <img src="${color.image.bare}" alt="bare image" class="each-image"/>
                 </div>
             </div>
-        </div>
-    `;
+        </div>`;
 }
 // Copy Color Info
 function copyColorNameType(e){
@@ -486,14 +417,13 @@ function copyColorNameType(e){
     toast(e);
 }
 function toast(e){
-    const copied = doc.createElement("i");
+    const copied = doc.createElement("img");
     copied.classList.add("ri-check-double-line");
-    copied.style.color = "green";
-    copied.style.fontSize = "20px";
+    copied.src = "../img/check-double-line.svg"
+    copied.style.width = "25px";
+    copied.style.height = "20px";
     e.target.appendChild(copied);
-    setTimeout(() =>{
-        copied.style.display = "inline";
-    }, 100);
+    setTimeout(() =>{copied.style.display = "inline";}, 100);
     setTimeout(() =>{
         e.target.removeChild(copied);
         copied.addEventListener("transitionend", ()=>{
@@ -510,7 +440,6 @@ function select_templates(template, array, container, class_name, card_class_nam
     const select_title = doc.createElement("h5");
     const select_template = doc.createElement("select");
     const select_option = doc.createElement("option");
-
     select_templates.classList.add("select-templates");
     select_title.classList.add("select-title");
     select_title.innerHTML = "اختر التنسيق الذي تريده:";
@@ -519,29 +448,22 @@ function select_templates(template, array, container, class_name, card_class_nam
     select_option.value = "";
     select_option.innerHTML = "اختر التنسيق";
     select_template.appendChild(select_option);
-
     for (let i = 0; i < array.length; i++) {
         const select_option = doc.createElement("option");
         select_option.value = i;
         select_option.innerHTML = i + 1;
         select_template.appendChild(select_option);
     }
-
     select_templates.appendChild(select_title);
     select_templates.appendChild(select_template);
     container.appendChild(select_templates);
-
     select_template.addEventListener("change", ()=>{
-        if (container.children.length === 1) {
-            downloadTemplate(select_template, colors_template, container, card_class_name);
-        }
+        if (container.children.length === 1) downloadTemplate(select_template, colors_template, container, card_class_name);
         else{
             container.removeChild(container.lastChild);
             downloadTemplate(select_template, colors_template, container, card_class_name);
         }
-        if (select_template.value === "") {
-            container.removeChild(container.lastChild);
-        }
+        if (select_template.value === "") container.removeChild(container.lastChild);
     });
 }
 // download types
@@ -557,7 +479,6 @@ function downloadTemplate(select, palette, container, card_class_name){
     const select_code_format = doc.createElement("select");
     const code_option = doc.createElement("option");
     const code = doc.createElement("div");
-
     download_template.classList.add("download-template");
     download_format.classList.add("download-format");
     select_download_format.classList.add("select-download-format");
@@ -570,10 +491,8 @@ function downloadTemplate(select, palette, container, card_class_name){
     select_code_format.classList.add("color-info");
     code_option.classList.add("format");
     code.classList.add("code");
-
     select_download_option.innerHTML = "اختر صيغة التنزيل";
     select_download_option.value = "";
-
     select_download_format.appendChild(select_download_option);
     for (let i = 0; i < options.length; i++) {
         const select_download_option = doc.createElement("option");
@@ -585,31 +504,24 @@ function downloadTemplate(select, palette, container, card_class_name){
     select_download_format.addEventListener("change", ()=>{
         download.innerHTML = "";
         const download_btn = doc.createElement("input");
-        
         download_btn.type = "button";
         download_btn.classList.add("image-submit");
         download_btn.classList.add("download-btn");
         download_btn.value = "تنزيل";
-        
         download_btn.addEventListener("click", () =>{
             const format = select_download_format.value;
             let templateNumber = select.value;
             templateNumber = templateNumber == ""? "palette": templateNumber;
             download_palette(format, templateNumber, palette[templateNumber], card_class_name);
         });
-        
         download.appendChild(download_btn);
-        if (select_download_format.value === "") {
-            download.removeChild(download_btn);
-        }
+        if (select_download_format.value === "") download.removeChild(download_btn);
     });
-
     or_separator.innerHTML = `
         <div class="top-line"></div>
         <p class="or">OR</p>
         <div class="bottom-line"></div>
     `;
-
     code_option.value = "";
     code_option.innerHTML = "اختر نمط الكود";
     select_code_format.appendChild(code_option);
@@ -626,40 +538,30 @@ function downloadTemplate(select, palette, container, card_class_name){
         const title = doc.createElement("h4");
         const file_copy = doc.createElement("i");
         const real_code = doc.createElement("div");
-
         code_title.classList.add("code-title");
         file_copy.classList.add("ri-file-copy-line");
         real_code.classList.add("real-code");
-
         title.innerHTML = "انسخ الكود التالي:";
-
         const format = select_code_format.value;
         let templateNumber = select.value;
         templateNumber = templateNumber == ""? "palette": templateNumber;
         show_palette(format, real_code, palette[templateNumber], card_class_name);
-
         file_copy.addEventListener("click", ()=>{
             navigator.clipboard.writeText(real_code.innerHTML);
             file_copy.classList.remove("ri-file-copy-line");
             file_copy.classList.add("ri-check-double-line");
-
             setTimeout(() => {
                 file_copy.classList.remove("ri-check-double-line");
                 file_copy.classList.add("ri-file-copy-line");
             }, 1000);
         });
-
         code_title.appendChild(title);
         code_title.appendChild(file_copy);
         code.appendChild(code_title);
         code.appendChild(real_code);
         code_format.appendChild(code);
-
-        if (select_code_format.value === "") {
-            code_format.removeChild(code);
-        }
+        if (select_code_format.value === "") code_format.removeChild(code);
     });
-
     download_format.appendChild(select_download_format);
     download_format.appendChild(download);
     code_format.appendChild(select_code_format);
@@ -672,25 +574,12 @@ function downloadTemplate(select, palette, container, card_class_name){
 function download_palette(format, number, palette, card_class_name){
     let paletteColors = palette.querySelectorAll(`.${card_class_name}`);
     const colors = [];
-    paletteColors.forEach((color) =>{
-        colors.push(color.style.backgroundColor);
-    });
+    paletteColors.forEach((color) => colors.push(color.style.backgroundColor));
     switch (format) {
-        case "png":
-            download_palette_png(colors, number);
-            break;
-        case "svg":
-            download_palette_svg(colors, number);
-            break;
-        case "css":
-            download_palette_css(colors, number);
-            break;
-        case "json":
-            download_palette_json(colors, number);
-            break;
-        case "pdf":
-            download_palette_pdf(colors, number, palette);
-            break;
+        case "png": download_palette_png(colors, number); break;
+        case "svg": download_palette_svg(colors, number); break;
+        case "css": download_palette_css(colors, number); break;
+        case "json": download_palette_json(colors, number); break;
     }
 }
 // download formats
@@ -757,16 +646,10 @@ function download_palette_json(colors, name) {
 function show_palette(format, target, palette, card_class_name){
     const paletteColors = palette.querySelectorAll(`.${card_class_name}`);
     const colors = [];
-    paletteColors.forEach((color) =>{
-        colors.push(color.style.backgroundColor);
-    });
+    paletteColors.forEach((color) => colors.push(color.style.backgroundColor));
     switch (format) {
-        case "css":
-            show_palette_css(colors, target);
-            break;
-        case "json":
-            show_palette_json(colors, target);
-            break;
+        case "css": show_palette_css(colors, target); break;
+        case "json": show_palette_json(colors, target); break;
     }
 }
 // code formats
@@ -811,24 +694,18 @@ function generateReadyPaletteHtml(type, container){
         fetch(colorInfo)
         .then(response => response.json())
         .then(colorName =>{
-            palette_color.innerHTML = 
-            `
-            <div class="color" style="background-color: rgb(${color});"></div>
-            <div class="color-names">
-                <h4>${HslToHex(color)}</h4>
-            </div>
-            `;
+            palette_color.innerHTML = `<div class="color" style="background-color: rgb(${color});"></div>
+                                        <div class="color-names">
+                                            <h4>${HslToHex(color)}</h4>
+                                        </div>`;
             palette_color.addEventListener("mouseenter", ()=>{
                 palette_color.style.height = "62vh";
                 palette_color.children[0].style.height = "70%";
                 palette_color.children[0].innerHTML = `<h4 class="colorName">${colorName.name.value}</h4>`;
                 if (palette_color.children[1].children.length === 1) {
-                    palette_color.children[1].innerHTML += 
-                    `
-                    <h4>${colorName.rgb.value}</h4>
-                    <h4>${colorName.cmyk.value}</h4>
-                    <h4>${colorName.hsl.value}</h4>
-                    `;
+                    palette_color.children[1].innerHTML += `<h4>${colorName.rgb.value}</h4>
+                                                            <h4>${colorName.cmyk.value}</h4>
+                                                            <h4>${colorName.hsl.value}</h4>`;
                 }
             });
             palette_color.addEventListener("mouseleave", ()=>{
@@ -836,15 +713,11 @@ function generateReadyPaletteHtml(type, container){
                     palette_color.style.height = "30vh";
                     palette_color.children[0].style.height = "85%";
                     palette_color.children[0].innerHTML = "";
-                    if (palette_color.children[1].children.length === 4) {
-                        palette_color.children[1].innerHTML = `<h4>${HslToHex(color)}</h4>`;
-                    }
+                    if (palette_color.children[1].children.length === 4) palette_color.children[1].innerHTML = `<h4>${HslToHex(color)}</h4>`;
                 });
             });
         });
-        palette_color.addEventListener("click",(e)=>{
-            copyColorNameType(e);
-        });
+        palette_color.addEventListener("click",(e)=> copyColorNameType(e));
         container.appendChild(palette_color);
     });
 }
@@ -870,14 +743,11 @@ function generateReadyPalettesHtml(color){
         const palette = doc.createElement("div");
         const palette_title = doc.createElement("div");
         const palette_colors = doc.createElement("div");
-
         palette.classList.add("palette");
         palette_title.classList.add("palette-title");
         palette_colors.classList.add("palette-colors");
-
         palette_title.innerHTML = `<h3>التنسيق ${i + 1}:</h3>`
         generateReadyPaletteHtml(currentType, palette_colors);
-
         palette.appendChild(palette_title);
         palette.appendChild(palette_colors);
         palettes.appendChild(palette);
@@ -888,17 +758,10 @@ window.onload= generateReadyPalettesHtml();
 window.onload = select_templates(palettes, generateRandomRgbColors(currentCount), download_palettes, "palette", "color");
 // Check the inputs
 function checkInputs(templates, type, num1, num2) {
-    if (type.value === "") {
-        templates.innerHTML = `<p class="search-title">يجب عليك اختيار نمط تنسيق معين</p>`;
-    }
-    if (num1.value < 2) {
-        templates.innerHTML = `<p class="search-title">يجب عليك اختيار عدد التنسيقات الذي تريده بشكل صحيح</p>`;
-    }else if (num1.value > 200) {
-        templates.innerHTML = `<p class="search-title">عدد التنسيقات الذي اخترته عالي جداً, يرجى اختيار عدد اقل من  200</p>`;
-    }
-    if (num2.value === "") {
-        templates.innerHTML = `<p class="search-title">يجب عليك اختيار عدد الألوان ضمن التنسيق الواحد</p>`;
-    }
+    if (type.value === "") templates.innerHTML = `<p class="search-title">يجب عليك اختيار نمط تنسيق معين</p>`;
+    if (num1.value < 2) templates.innerHTML = `<p class="search-title">يجب عليك اختيار عدد التنسيقات الذي تريده بشكل صحيح</p>`;
+    else if (num1.value > 200) templates.innerHTML = `<p class="search-title">عدد التنسيقات الذي اخترته عالي جداً, يرجى اختيار عدد اقل من  200</p>`;
+    if (num2.value === "") templates.innerHTML = `<p class="search-title">يجب عليك اختيار عدد الألوان ضمن التنسيق الواحد</p>`;
 }
 // lists options
 function listsOptions(type, palettes, colors, submit, container) {
@@ -937,69 +800,47 @@ function generateColorAPI(color_type){
         const r = parseInt(color_type.substring(color_type.indexOf("(") + 1, color_type.indexOf(",")));
         const g = parseInt(color_type.substring(color_type.indexOf(",") + 1, color_type.lastIndexOf(",")));
         const b = parseInt(color_type.substring(color_type.lastIndexOf(",") + 1, color_type.indexOf(")")));
-        if (r > 255 || r < 0 || g > 255 || g < 0 || b > 255 || b < 0) {
-            search_color_info.innerHTML = `<p class="search-title">قيمة اللون غير صحيحة</p>`;
-        }else{
-            colorInfo = colorAPI+`id?format=rgb&rgb=${color_type}`;
-        }
+        if (r > 255 || r < 0 || g > 255 || g < 0 || b > 255 || b < 0) search_color_info.innerHTML = `<p class="search-title">قيمة اللون غير صحيحة</p>`;
+        else colorInfo = colorAPI+`id?format=rgb&rgb=${color_type}`;
     } else if (color_type.at(0) === "#" && color_type.length === 4 || color_type.length === 7) {
         const hex_clean = color_type.substr(1, color_type.length);
-        if (isValidColor(color_type)) {
-            colorInfo = colorAPI+`id?format=hex&hex=${hex_clean}`;
-        }else if (hex_clean.includes("A") || hex_clean.includes("B") || hex_clean.includes("C") || hex_clean.includes("D") || hex_clean.includes("E") || hex_clean.includes("F")){
-            search_color_info.innerHTML = `<p class="search-title">الحروف الموجودة يجب ان تكون صغيرة</p>`;
-        }else{
-            search_color_info.innerHTML = `<p class="search-title">قيمة اللون غير صحيحة</p>`;
-        }
+        if (isValidColor(color_type)) colorInfo = colorAPI+`id?format=hex&hex=${hex_clean}`;
+        else if (hex_clean.includes("A") || hex_clean.includes("B") || hex_clean.includes("C") || hex_clean.includes("D") || hex_clean.includes("E") || hex_clean.includes("F")) search_color_info.innerHTML = `<p class="search-title">الحروف الموجودة يجب ان تكون صغيرة</p>`;
+        else search_color_info.innerHTML = `<p class="search-title">قيمة اللون غير صحيحة</p>`;
     }
     else if ((color_type.at(0) === "h" || color_type.at(0) === "H") && (color_type.at(1) === "s" || color_type.at(1) === "S") && (color_type.at(2) === "l" || color_type.at(2) === "L") && color_type.at(3) === "(" && color_type.at(color_type.length - 1) === ")"){
         const h = parseInt(color_type.substring(color_type.indexOf("(") + 1, color_type.indexOf(",")));
         const s = parseInt(color_type.substring(color_type.indexOf(",") + 1, color_type.lastIndexOf(",")));
         const l = parseInt(color_type.substring(color_type.lastIndexOf(",") + 1, color_type.indexOf(")")));
-        if (h < 0 || h > 360 || s < 0 || s > 100 || l < 0 || l > 100) {
-            search_color_info.innerHTML = `<p class="search-title">قيمة اللون غير صحيحة</p>`;
-        }else{
-            colorInfo = colorAPI+`id?format=hsl&hsl=${color_type}`;
-        }
+        if (h < 0 || h > 360 || s < 0 || s > 100 || l < 0 || l > 100) search_color_info.innerHTML = `<p class="search-title">قيمة اللون غير صحيحة</p>`;
+        else colorInfo = colorAPI+`id?format=hsl&hsl=${color_type}`;
     }
     else if ((color_type.at(0) === "h" || color_type.at(0) === "H") && (color_type.at(1) === "s" || color_type.at(1) === "S") && (color_type.at(2) === "v" || color_type.at(2) === "V") && color_type.at(3) === "(" && color_type.at(color_type.length - 1) === ")"){
         const h = parseInt(color_type.substring(color_type.indexOf("(") + 1, color_type.indexOf(",")));
         const s = parseInt(color_type.substring(color_type.indexOf(",") + 1, color_type.lastIndexOf(",")));
         const v = parseInt(color_type.substring(color_type.lastIndexOf(",") + 1, color_type.indexOf(")")));
-        if (h < 0 || h > 360 || s < 0 || s > 100 || v < 0 || v > 100) {
-            search_color_info.innerHTML = `<p class="search-title">قيمة اللون غير صحيحة</p>`;
-        }else{
-            colorInfo = colorAPI+`id?format=hsl&hsl=${color_type}`;
-        }
+        if (h < 0 || h > 360 || s < 0 || s > 100 || v < 0 || v > 100) search_color_info.innerHTML = `<p class="search-title">قيمة اللون غير صحيحة</p>`;
+        else colorInfo = colorAPI+`id?format=hsl&hsl=${color_type}`;
     }
     else if ((color_type.at(0) === "c" || color_type.at(0) === "C") && (color_type.at(1) === "m" || color_type.at(1) === "M") && (color_type.at(2) === "y" || color_type.at(2) === "Y") && (color_type.at(3) === "k" || color_type.at(3) === "K") && color_type.at(4) === "(" && color_type.at(color_type.length - 1) === ")"){
         const c = parseInt(color_type.substring(color_type.indexOf("(") + 1, color_type.indexOf(",")));
         const m = parseInt(color_type.substring(color_type.indexOf(",") + 1, color_type.indexOf(",", 6)));
         const y = parseInt(color_type.substring(color_type.indexOf(",", 6) + 1, color_type.lastIndexOf(",")));
         const k = parseInt(color_type.substring(color_type.lastIndexOf(",") + 1, color_type.indexOf(")")));
-        if (c < 0 || c > 100 || m < 0 || m > 100 || y < 0 || y > 100 || k < 0 || k > 100) {
-            search_color_info.innerHTML = `<p class="search-title">قيمة اللون غير صحيحة</p>`;
-        }else{
-            colorInfo = colorAPI+`id?format=hsl&hsl=${color_type}`;
-        }
+        if (c < 0 || c > 100 || m < 0 || m > 100 || y < 0 || y > 100 || k < 0 || k > 100) search_color_info.innerHTML = `<p class="search-title">قيمة اللون غير صحيحة</p>`;
+        else colorInfo = colorAPI+`id?format=hsl&hsl=${color_type}`;
     }
     else if ((color_type.at(0) === "x" || color_type.at(0) === "X") && (color_type.at(1) === "y" || color_type.at(1) === "Y") && (color_type.at(2) === "z" || color_type.at(2) === "Z") && color_type.at(3) === "(" && color_type.at(color_type.length - 1) === ")"){
         const x = parseInt(color_type.substring(color_type.indexOf("(") + 1, color_type.indexOf(",")));
         const y = parseInt(color_type.substring(color_type.indexOf(",") + 1, color_type.lastIndexOf(",")));
         const z = parseInt(color_type.substring(color_type.lastIndexOf(",") + 1, color_type.indexOf(")")));
-        if (x < 0 || x > 95.047 || y < 0 || y > 100 || z < 0 || z > 108.883) {
-            search_color_info.innerHTML = `<p class="search-title">قيمة اللون غير صحيحة</p>`;
-        }else{
-            colorInfo = colorAPI+`id?format=hsl&hsl=${color_type}`;
-        }
+        if (x < 0 || x > 95.047 || y < 0 || y > 100 || z < 0 || z > 108.883) search_color_info.innerHTML = `<p class="search-title">قيمة اللون غير صحيحة</p>`;
+        else colorInfo = colorAPI+`id?format=hsl&hsl=${color_type}`;
     }
-    else{
-        search_color_info.innerHTML = "<p class='search-title'>هذه القيمة لا تمثل أي نوع من أنواع الألوان</p>"
-    }
+    else search_color_info.innerHTML = "<p class='search-title'>هذه القيمة لا تمثل أي نوع من أنواع الألوان</p>"
     return colorInfo;
 }
 function generateColorInfoHtml(color_api){
-    // color_api = color_api.split("").filter(function (char) {return char !== " " && char !== "%";}).join("");
     color_api = color_api.replaceAll("%", "");
     search_type.style.display = "none";
     fetch(color_api)
@@ -1041,27 +882,22 @@ function generateColorInfoHtml(color_api){
                 <img src="${data.image.bare}" alt="search color image" class="search-color-image"/>
             </div>
         `;
-
         search_type.style.display = "block";
         listsOptions(search_type, search_type, search_color_num, search_submit, search_color_template);
         search_submit.addEventListener("click", ()=>{
             search_color_template.innerHTML = "";
             currentColor = search_input.value;
             const colors_cards = doc.createElement("div");
-
             colors_cards.classList.add("colors-cards");
             colors_cards.setAttribute("value", 0);
             generateImagePaletteHtml(currentType, colors_cards, search_more_info);
-
             search_color_template.appendChild(colors_cards);
             select_templates(search_color_template, [currentColor], download_color_palette, "colors-cards", "color-card")
         });
     });
 }
 search_color_info.addEventListener("click",(e)=>{
-    if (e.target.classList.contains("color-value")) {
-        copyColorNameType(e);
-    }
+    if (e.target.classList.contains("color-value")) copyColorNameType(e);
 });
 // Menu for mobiles
 function burger_menu() {
