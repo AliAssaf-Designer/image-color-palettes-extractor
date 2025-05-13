@@ -419,7 +419,7 @@ function copyColorNameType(e){
 function toast(e){
     const copied = doc.createElement("img");
     copied.classList.add("ri-check-double-line");
-    copied.src = "../img/check-double-line.svg"
+    copied.src = "./img/check-double-line.svg"
     copied.style.width = "25px";
     copied.style.height = "20px";
     e.target.appendChild(copied);
@@ -539,7 +539,7 @@ function downloadTemplate(select, palette, container, card_class_name){
         const file_copy = doc.createElement("img");
         const real_code = doc.createElement("div");
         code_title.classList.add("code-title");
-        file_copy.src = "../img/file-copy-line.svg";
+        file_copy.src = "./img/file-copy-line.svg";
         file_copy.classList.add("ri-file-copy-line");
         real_code.classList.add("real-code");
         title.innerHTML = "انسخ الكود التالي:";
@@ -549,8 +549,8 @@ function downloadTemplate(select, palette, container, card_class_name){
         show_palette(format, real_code, palette[templateNumber], card_class_name);
         file_copy.addEventListener("click", ()=>{
             navigator.clipboard.writeText(real_code.innerHTML);
-            file_copy.src = "../img/check-double-line.svg";
-            setTimeout(() => { file_copy.src = "../img/file-copy-line.svg";}, 1000);
+            file_copy.src = "./img/check-double-line.svg";
+            setTimeout(() => { file_copy.src = "./img/file-copy-line.svg";}, 1000);
         });
         code_title.appendChild(title);
         code_title.appendChild(file_copy);
