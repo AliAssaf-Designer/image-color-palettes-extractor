@@ -189,7 +189,8 @@ body{color: var(--primary-color);}
     line-height: 20px;
     padding: 10px;
 }
-.color-card:first-child, .color-card:last-child{ border-top-right-radius: 15px; border-bottom-right-radius: 15px;}
+.color-card:first-child{ border-top-right-radius: 15px; border-bottom-right-radius: 15px;}
+.color-card:last-child{ border-top-left-radius: 15px; border-bottom-left-radius: 15px;}
 .color-card_name, .color-card_hex, .color-card_rgb, .color-card_cmyk, .color-card_hsl{cursor: pointer;}
 .color-card_more{cursor: context-menu;}
 .color-card_more:hover{text-decoration: underline;}
