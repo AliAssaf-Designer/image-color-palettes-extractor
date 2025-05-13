@@ -259,7 +259,7 @@ body{color: var(--primary-color);}
     border-bottom: 1px solid white;
     margin-bottom: 10px;
 }
-.ri-file-copy-line{ font-size: 25px; cursor: pointer;}
+.ri-file-copy-line{ width: 25px; font-size: 25px; cursor: pointer;}
 .ri-check-double-line{ color: green; font-size: 25px;}
 .real-code{
     height: auto;
@@ -367,6 +367,7 @@ body{color: var(--primary-color);}
 .search-color-num{display: none;}
 .search-submit{display: none;}
 .search-more-info{color: black;}
+.download-color-palette{text-align: center;}
 /* LOGIN FORM */
 .main{padding-top: 18px;}
 .login-form{

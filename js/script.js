@@ -67,7 +67,7 @@ getFile.addEventListener("change", (e)=>{
             }
             color_type.style.display = "block";
         }
-        else error_file_type_alert("الملف الذي قمت بأختياره لا يمثل صورة, قم بإعادة تحميل ملف أخر؟");
+        else error_file_type_alert("الملف الذي قمت باختياره لا يمثل صورة, قم بإعادة تحميل ملف أخر؟");
     }
 });
 function error_file_type_alert(txt) {
@@ -536,9 +536,10 @@ function downloadTemplate(select, palette, container, card_class_name){
         code.innerHTML = "";
         const code_title = doc.createElement("div");
         const title = doc.createElement("h4");
-        const file_copy = doc.createElement("i");
+        const file_copy = doc.createElement("img");
         const real_code = doc.createElement("div");
         code_title.classList.add("code-title");
+        file_copy.src = "../img/file-copy-line.svg";
         file_copy.classList.add("ri-file-copy-line");
         real_code.classList.add("real-code");
         title.innerHTML = "انسخ الكود التالي:";
@@ -548,12 +549,8 @@ function downloadTemplate(select, palette, container, card_class_name){
         show_palette(format, real_code, palette[templateNumber], card_class_name);
         file_copy.addEventListener("click", ()=>{
             navigator.clipboard.writeText(real_code.innerHTML);
-            file_copy.classList.remove("ri-file-copy-line");
-            file_copy.classList.add("ri-check-double-line");
-            setTimeout(() => {
-                file_copy.classList.remove("ri-check-double-line");
-                file_copy.classList.add("ri-file-copy-line");
-            }, 1000);
+            file_copy.src = "../img/check-double-line.svg";
+            setTimeout(() => { file_copy.src = "../img/file-copy-line.svg";}, 1000);
         });
         code_title.appendChild(title);
         code_title.appendChild(file_copy);
@@ -837,7 +834,7 @@ function generateColorAPI(color_type){
         if (x < 0 || x > 95.047 || y < 0 || y > 100 || z < 0 || z > 108.883) search_color_info.innerHTML = `<p class="search-title">قيمة اللون غير صحيحة</p>`;
         else colorInfo = colorAPI+`id?format=hsl&hsl=${color_type}`;
     }
-    else search_color_info.innerHTML = "<p class='search-title'>هذه القيمة لا تمثل أي نوع من أنواع الألوان</p>"
+    else search_color_info.innerHTML = "<p class='search-title'>هذه القيمة لا تمثل أي نوع من قيم الألوان (لا يمكن استخدام الأسماء أو اللغة العربية هنا)</p>"
     return colorInfo;
 }
 function generateColorInfoHtml(color_api){
@@ -858,23 +855,23 @@ function generateColorInfoHtml(color_api){
                 <p class="color-value">${data.hex.value}</p>
             </div>
             <div class="search-color">
-                <h3 class="color-title">قيمة الrgb:</h3>
+                <h3 class="color-title">قيمة ال rgb:</h3>
                 <p class="color-value">${data.rgb.value}</p>
             </div>
             <div class="search-color">
-                <h3 class="color-title">قيمة الcmyk:</h3>
+                <h3 class="color-title">قيمة ال cmyk:</h3>
                 <p class="color-value">${data.cmyk.value}</p>
             </div>
             <div class="search-color">
-                <h3 class="color-title">قيمة الhsl:</h3>
+                <h3 class="color-title">قيمة ال hsl:</h3>
                 <p class="color-value">${data.hsl.value}</p>
             </div>
             <div class="search-color">
-                <h3 class="color-title">قيمة الhsv:</h3>
+                <h3 class="color-title">قيمة ال hsv:</h3>
                 <p class="color-value">${data.hsv.value}</p>
             </div>
             <div class="search-color">
-                <h3 class="color-title">قيمة الxyz:</h3>
+                <h3 class="color-title">قيمة ال xyz:</h3>
                 <p class="color-value">${data.XYZ.value}</p>
             </div>
             <div class="search-color">
@@ -883,7 +880,6 @@ function generateColorInfoHtml(color_api){
             </div>
         `;
         search_type.style.display = "block";
-        listsOptions(search_type, search_type, search_color_num, search_submit, search_color_template);
         search_submit.addEventListener("click", ()=>{
             search_color_template.innerHTML = "";
             currentColor = search_input.value;
@@ -894,6 +890,7 @@ function generateColorInfoHtml(color_api){
             search_color_template.appendChild(colors_cards);
             select_templates(search_color_template, [currentColor], download_color_palette, "colors-cards", "color-card")
         });
+        listsOptions(search_type, search_type, search_color_num, search_submit, search_color_template);
     });
 }
 search_color_info.addEventListener("click",(e)=>{
